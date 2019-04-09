@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../resources/main.xhtml">
+   
+     <ui:define name="tarefas">
+
+        
+         <p:dataTable var="patient" value="#{patientmedecin.patients}" widgetVar="carsTable"
+                      emptyMessage="No cars found with given criteria" filteredValue="#{patientmedecin.filteredPatients}"> 
+           
+        <f:facet name="header">
+            <p:outputPanel>
+                <h:outputText value="Search all fields:" />
+                <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+            </p:outputPanel>
+        </f:facet>
+
+          
+                <p:column headerText="Nom" filterBy="#{patient.nom}" footerText="" filterMatchMode="">
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('carsTable').filter()" styleClass="custom-filter">
+                            <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+                            <f:selectItems value="#{null}" />
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{patient.nom}" />
+                </p:column>
+
+                <p:column headerText="Prenom" filterBy="#{patient.prenom}" footerText="" filterMatchMode="">
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('carsTable').filter()" styleClass="custom-filter">
+                            <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+                            <f:selectItems value="#{null}" />
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{patient.prenom}" />
+                </p:column>
+                <p:column headerText="Telephone">
+                    <h:outputText value="#{patient.telephone}" />
+                </p:column>
+                <p:column headerText="Maladie" filterBy="#{patient.patientmaladie.nomaladie}" footerText="" filterMatchMode="">
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('carsTable').filter()" styleClass="custom-filter">
+                            <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+                            <f:selectItems value="#{null}" />
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{patient.patientmaladie.nomaladie}" />
+                </p:column>
+                <p:column headerText="Region" filterBy="#{patient.patientregion.nomregion}" footerText="" filterMatchMode="">
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('carsTable').filter()" styleClass="custom-filter">
+                            <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+                            <f:selectItems value="#{null}" />
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{patient.patientregion.nomregion}" />
+                </p:column>
+      
+
+        </p:dataTable> 
+   
+  </ui:define>
+
+      
+</ui:composition>

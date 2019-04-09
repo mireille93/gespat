@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      ><!-- xmlns:sec="http://www.springframework.org/security/facelets/tags" -->
+
+    <h:head>
+        <title>Gestion Suivi Patient</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="#{facesContext.externalContext.requestContextPath}/resources/restrict/css/semeru.css" rel="stylesheet" type="text/css" />
+        <!--<link href="{facesContext.externalContext.requestContextPath}/resources/restrict/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />-->    
+    </h:head>
+
+    <h:body>
+
+        <div id="topo">
+            <a href="#"><div id="logot"></div></a>            
+                        
+            <div id="logoff">
+                <h:form>
+                    <br/>
+                    <h5><h:outputText value="Bienvenue à #{utilisateurConnecte.procurerUtilisateur().getNom()}!"/></h5>
+                    <br/>
+                    <a href="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout">
+	                <h4>Déconnectez-vous</h4>
+	            </a>
+
+                </h:form>
+            </div>
+        </div>  
+
+        <div id="menu"><!-- Menu ########################################## Menu-->
+            <h:form>    
+                <p:menubar styleClass="labelmenu">
+
+                    <p:submenu label="Administration"> 
+                        <p:menuitem value="Administrateur" action="#{utilisateurController.clearUtilisateur()}" ajax="false"/>                        
+                        <p:menuitem value="Maladie" action="#{maladieController.clearMaladie()}" ajax="false"/>                        
+                        <p:menuitem value="Medecin" action="#{utilisateurController.clearMedecin()}" ajax="false"/> 
+                        <p:menuitem value="Region" action="#{regionController.clearRegion()}" ajax="false"/>                        
+                        </p:submenu> 
+                    <p:submenu label="Suivi">  
+                        <p:menuitem value="Patient" action="#{utilisateurController.clearPatient()}" ajax="false"/> 
+                        <p:menuitem value="Dossier" action="#{dossierController.clearDossier()}" ajax="false"/>                        
+                        
+                     </p:submenu> 
+                    <p:submenu label="Etats">  
+                        <p:menuitem value="Dossiers medicaux" action="#{dtFilterView.clearDos()}" ajax="false"/> 
+                        <p:menuitem value="Etats Patients " action="#{patientmedecin.clearPasMed()}" ajax="false"/>                        
+                        
+                     </p:submenu> 
+                </p:menubar> 
+            </h:form>           
+        </div>
+
+        <!-- Menu ########################################## Menu -->
+
+        <div id="tarefas">
+            <ui:insert name="tarefas"></ui:insert>
+        </div>
+
+        <div id="rodape">
+            <a href="#"></a>
+
+            <div id="copyright">                  
+                <a href="#">Gestion de suivi des patients - &copy; Copyright edu.ifi.vn 2019</a>
+            </div>
+        </div> 
+
+    </h:body>
+
+</html>

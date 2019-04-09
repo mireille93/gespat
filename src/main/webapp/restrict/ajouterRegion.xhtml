@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../resources/main.xhtml">
+
+    <ui:define name="tarefas">
+        <p:fieldset legend="Enregistrer une Region">
+            <br/>
+            <p:tabView id="tbv1" dynamic="true" cache="true">
+                <p:tab title="Region">
+                    <h:form prependId="false" id="formRegion">
+                        <p:growl id="msg0"/>
+                        <h:panelGrid columns="2" cellpadding="10" styleClass="panelGrid" id="grid0">
+                            
+                            <h:outputLabel/>
+                            <h:inputHidden id="idcidade" value="#{regionController.region.idregion}"/> 
+                            
+                            
+                                <h:outputLabel for="nomRegion" value="Nom.:"/>
+                                <p:inputText id="nomRegion" size="40" value="#{regionController.region.nomregion}"
+                                             required="true" requiredMessage="Le champ [NOM] est obligatoire"
+                                          />
+                                
+                                <h:outputLabel for="paysregion" value="Pays.:"/>
+                                <p:inputText id="paysregion" size="40" value="#{regionController.region.paysregion}"
+                                             required="true" requiredMessage="Le champ [Pays] est obligatoire"
+                                           />
+
+                            <p:panel>
+                                 
+                                <p:commandButton value="Ajouter" action="#{regionController.addRegion}"
+                                    image="ui-icon ui-icon-disk" update="@form :formtable"/>
+                               
+                                <p:commandButton value="Annuler" actionListener="#{regionController.clearRegion()}" 
+                                    image="ui-icon ui-icon-close" update="@form"/>
+                            </p:panel>
+                        </h:panelGrid>
+                    </h:form>
+                </p:tab>
+            </p:tabView>
+            
+            <h:form id="formtable">
+                <p:growl id="msg1"/>
+                <p:dataTable id="idTabela" var="region" value="#{regionController.regionList}"
+                             paginator="true" rows="10" emptyMessage="Aucun enregistrement trouvé"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink}
+                             {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15">
+                
+                    <f:facet name="header">Liste des Regions</f:facet>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nom"/>
+                        </f:facet>
+                        <h:outputText value="#{region.nomregion}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Pays"/>
+                        </f:facet>
+                        <h:outputText value="#{region.paysregion}"/>
+                    </p:column>
+                   
+                    
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Action"/>
+                        </f:facet>
+                    
+                       
+                        <p:commandButton value="Editer" 
+                                         image="ui-icon ui-icon-pencil"
+                                process="@this" update=":tbv1:formRegion">
+                            <f:setPropertyActionListener target="#{regionController.region}"
+                                                         value="#{region}"/>
+                        </p:commandButton>
+                        <p:commandButton value="Supprimer" action="#{regionController.deleteRegion()}"
+                                image="ui-icon ui-icon-close" update="@form"
+                                onclick="return confirm('Are you sure to delete this Region?')">
+                            <f:setPropertyActionListener target="#{regionController.region}"
+                                value="#{region}"/>
+                        </p:commandButton>
+                        
+                    </p:column>
+                    
+                </p:dataTable>
+                
+            </h:form>
+            
+        </p:fieldset>
+    </ui:define>
+</ui:composition>

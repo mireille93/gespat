@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../resources/main.xhtml">
+
+    <ui:define name="tarefas">
+        <p:fieldset legend="Enregistrer Maladie">
+            <br/>
+            <p:tabView id="tbv1" dynamic="true" cache="true">
+                <p:tab title="Maladie">
+                    <h:form prependId="false" id="formMaladie">
+                        <p:growl id="msg0"/>
+                        <h:panelGrid columns="2" cellpadding="10" styleClass="panelGrid" id="grid0">
+                            
+                            <h:outputLabel/>
+                            <h:inputHidden id="idcidade" value="#{maladieController.maladie.idmaladie}"/> 
+                            
+                            
+                                <h:outputLabel for="nomaladie" value="Nom.:"/>
+                                <p:inputText id="nomaladie" size="40" value="#{maladieController.maladie.nomaladie}"
+                                             required="true" requiredMessage="Le champ [Nom] est obligatoire"
+                                             onkeyup="this.value = this.value.toUpperCase()"/>
+                                
+                                <h:outputLabel for="descriptionmaladie" value="Intitulé.:"/>
+                                <p:inputText id="descriptionmaladie" size="40" value="#{maladieController.maladie.descriptionmaladie}"
+                                             required="true" requiredMessage="Le champ [Description] est obligatoire"
+                                             onkeyup="this.value = this.value.toUpperCase()"/>
+
+                            
+                            <p:panel>
+                                <p:commandButton value="Ajouter" action="#{maladieController.addMaladie()}"
+                                    image="ui-icon ui-icon-disk" update="@form :formtable"/>
+                                <p:commandButton value="Annuler" actionListener="#{maladieController.clearMaladie()}" 
+                                    image="ui-icon ui-icon-close" update="@form"/>
+                            </p:panel>
+                        </h:panelGrid>
+                    </h:form>
+                </p:tab>
+            </p:tabView>
+            
+            <h:form id="formtable">
+                <p:growl id="msg1"/>
+                <p:dataTable id="idTabela" var="maladie" value="#{maladieController.maladieList}"
+                             paginator="true" rows="10" emptyMessage="Aucun enregistrement trouvé"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink}
+                             {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15">
+                
+                    <f:facet name="header">Liste des Maladies</f:facet>
+<!--                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Num"/>
+                        </f:facet>
+                        <h:outputText value="#{maladie.idmaladie}"/>
+                    </p:column>-->
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nom"/>
+                        </f:facet>
+                        <h:outputText value="#{maladie.nomaladie}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Description"/>
+                        </f:facet>
+                        <h:outputText value="#{maladie.descriptionmaladie}"/>
+                    </p:column>
+                   
+                    
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Action"/>
+                        </f:facet>
+                        <p:commandButton value="Editer" image="ui-icon ui-icon-pencil"
+                                process="@this" update=":tbv1:formMaladie">
+                            <f:setPropertyActionListener target="#{maladieController.maladie}"
+                                                         value="#{maladie}"/>
+                        </p:commandButton>
+                        <p:commandButton value="Supprimer" action="#{maladieController.deleteMaladie()}"
+                                image="ui-icon ui-icon-close" update="@form"
+                                onclick="return confirm('Are you sure to delete this Maladie?')">
+                            <f:setPropertyActionListener target="#{maladieController.maladie}"
+                                value="#{maladie}"/>
+                        </p:commandButton>
+                        
+                    </p:column>
+                    
+                </p:dataTable>
+                
+            </h:form>
+            
+        </p:fieldset>
+    </ui:define>
+</ui:composition>

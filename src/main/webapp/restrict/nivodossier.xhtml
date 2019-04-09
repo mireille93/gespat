@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../resources/main.xhtml">
+   
+     <ui:define name="tarefas">
+
+        
+       <p:dataTable var="dossier" value="#{dtFilterView.dossiers}" widgetVar="carsTable"
+                 emptyMessage="No cars found with given criteria" filteredValue="#{dtFilterView.filteredDossiers}"> 
+           
+        <f:facet name="header">
+            <p:outputPanel>
+                <h:outputText value="Search all fields:" />
+                <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+            </p:outputPanel>
+        </f:facet>
+
+          
+                <p:column headerText="Id">
+                    <h:outputText value="#{dossier.idossier}" />
+                </p:column>
+
+                <p:column headerText="descritpion">
+                    <h:outputText value="#{dossier.descriptiondossier}" />
+                </p:column>
+
+           
+        <p:column filterBy="#{dossier.nivodossier}" headerText="niveau dossier" footerText="exact" filterMatchMode="exact">
+            <f:facet name="filter">
+                <p:selectOneMenu onchange="PF('carsTable').filter()" styleClass="custom-filter">
+                    <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+                    <f:selectItems value="#{null}" />
+                </p:selectOneMenu>
+            </f:facet>
+            <h:outputText value="#{dossier.nivodossier}" />
+        </p:column>
+
+           
+                <p:column headerText="medecin">
+                    <h:outputText value="#{dossier.dosmedecin.nom}" />
+                </p:column>
+                <p:column headerText="patient">
+                    <h:outputText value="#{dossier.dospatient.nom}" />
+                </p:column>
+        </p:dataTable> 
+    
+         
+ 
+   
+  </ui:define>
+
+      
+</ui:composition>

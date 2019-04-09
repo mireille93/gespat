@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../resources/main.xhtml">
+
+    <ui:define name="tarefas">
+        <p:fieldset legend="Enregistrer Medecin">
+            <br/>
+            <p:tabView id="tbv1" dynamic="true" cache="true">
+                <p:tab title="Medecin">
+                    <h:form prependId="false" id="formMedecin">
+                        <p:growl id="msg0"/>
+                        <h:panelGrid columns="2" cellpadding="10" styleClass="panelGrid" id="grid0">
+                            
+                            <h:outputLabel/>
+                            <h:inputHidden id="idcidade" value="#{utilisateurController.medecin.utilisateurid}"/> 
+                            
+                            
+                                <h:outputLabel for="nomMedecin" value="Nom.:"/>
+                                <p:inputText id="nomMedecin" size="40" value="#{utilisateurController.medecin.nom}"
+                                             required="true" requiredMessage="Le champ [Nom] est obligatoire"
+                                             onkeyup="this.value = this.value.toUpperCase()"/>
+                                
+                                <h:outputLabel for="prenomMedecin" value="Prénom.:"/>
+                                <p:inputText id="prenomMedecin" size="40" value="#{utilisateurController.medecin.prenom}"
+                                             required="true" requiredMessage="Le champ [Prenom] est obligatoire"
+                                             />
+                          
+                               <h:outputLabel for="codeMedecin" value="Code Medecin.:"/>
+                                <p:inputText id="codeMedecin" size="40" value="#{utilisateurController.medecin.codemedecin}"
+                                             required="true" requiredMessage="Le champ [Code] est obligatoire"
+                                             />
+                                <h:outputLabel for="centreMedecin" value="Centre Medecin.:"/>
+                                <p:inputText id="centreMedecin" size="40" value="#{utilisateurController.medecin.centremedecin}"
+                                             required="true" requiredMessage="Le champ [centre] est obligatoire"
+                                             />
+                                <h:outputLabel for="telephoneMedecin" value="Telephone.:"/>
+                                <p:inputMask id="telephoneMedecin" size="40" mask="(84) 99-99-99-999"
+                                             value="#{utilisateurController.medecin.telephone}"
+                                             required="true" requiredMessage="Le champ [Telephone] est obligatoire"
+                                             />
+
+                                <h:outputLabel for="emailMedecin" value="E-mail.:"/>
+                                <p:inputText id="emailMedecin" size="40" value="#{utilisateurController.medecin.email}"
+                                             required="true" requiredMessage="Le champ [E-mail] est obligatoire">
+                                    <f:validator validatorId="emailValidator"/>
+                                </p:inputText>
+
+                                <h:outputLabel for="login" value="Login.:"/>
+                                <p:inputText id="login" value="#{utilisateurController.medecin.login}" size="30"/>
+
+                                <h:outputLabel for="password" value="Password.:" />
+                                <p:password id="password" size="30" maxlength="22" promptLabel="Entrez votre mot de passe" value="#{utilisateurController.pwdConverter}"
+                                            weakLabel="Password Faible" goodLabel="Password Moyen" strongLabel="Password Fort" feedback="true"/> 
+
+                                <h:outputLabel for="passwordconf2" value="Confirmer Password.:"/>
+                                <p:password id="passwordconf2" size="30" value="#{utilisateurController.medecin.password}" maxlength="22"   
+                                            promptLabel="Vérifier le mot de passe" weakLabel="Password Faible" validator="passwordValidator"
+                                            goodLabel="Password Moyen" strongLabel="Password Fort" feedback="true">
+                                </p:password>
+                       
+                            
+                            <p:panel>
+                                <p:commandButton value="Ajouter" action="#{utilisateurController.addMedecin()}"
+                                    image="ui-icon ui-icon-disk" update="@form :formtable"/>
+                                <p:commandButton value="Annuler" actionListener="#{utilisateurController.clearMedecin()}" 
+                                    image="ui-icon ui-icon-close" update="@form"/>
+                            </p:panel>
+                        </h:panelGrid>
+                    </h:form>
+                </p:tab>
+            </p:tabView>
+            
+            <h:form id="formtable">
+                <p:growl id="msg1"/>
+                <p:dataTable id="idTabela" var="medecin" value="#{utilisateurController.medecinList}"
+                             paginator="true" rows="10" emptyMessage="Aucun enregistrement trouvé"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink}
+                             {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15">
+                
+                    <f:facet name="header">Liste des Medecins</f:facet>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Login"/>
+                        </f:facet>
+                        <h:outputText value="#{medecin.login}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Rôle"/>
+                        </f:facet>
+                        <h:outputText value="#{medecin.permission}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nom"/>
+                        </f:facet>
+                        <h:outputText value="#{medecin.nom}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Prénom(s)"/>
+                        </f:facet>
+                        <h:outputText value="#{medecin.prenom}"/>
+                    </p:column>
+                   <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Code"/>
+                        </f:facet>
+                       <h:outputText value="#{medecin.codemedecin}"/>
+                    </p:column>
+                  
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Centre"/>
+                        </f:facet>
+                        <h:outputText value="#{medecin.centremedecin}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Email"/>
+                        </f:facet>
+                        <h:outputText value="#{medecin.email}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Date Save"/>
+                        </f:facet>
+                        <h:outputText value="#{medecin.dateenregistrement}"/>
+                    </p:column>
+                    
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Action"/>
+                        </f:facet>
+                        <p:commandButton value="Editer" image="ui-icon ui-icon-pencil"
+                                process="@this" update=":tbv1:formMedecin">
+                            <f:setPropertyActionListener target="#{utilisateurController.medecin}"
+                                                         value="#{medecin}"/>
+                        </p:commandButton>
+                        <p:commandButton value="Supprimer" action="#{utilisateurController.deleteMedecin()}"
+                                image="ui-icon ui-icon-close" update="@form"
+                                onclick="return confirm('Are you sure to delete user?')">
+                            <f:setPropertyActionListener target="#{utilisateurController.medecin}"
+                                value="#{medecin}"/>
+                        </p:commandButton>
+                        
+                    </p:column>
+                    
+                </p:dataTable>
+                
+            </h:form>
+            
+        </p:fieldset>
+    </ui:define>
+</ui:composition>
